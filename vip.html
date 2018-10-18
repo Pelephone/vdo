@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>vip视频在线解析</title>
+<meta name="Pelephone" content="fly">
+<meta name="description" content="用别人的接口搞的,方便自己看视频,请勿推广">
+<meta charset="UTF-8">
+<meta http-equiv="Access-Control-Allow-Origin" content="*">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection"content="telephone=no, email=no" />
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="true">
+<meta name="MobileOptimized" content="640">
+<meta name="screen-orientation" content="portrait">
+<meta name="x5-orientation" content="portrait">
+<meta name="full-screen" content="yes">
+<meta name="x5-fullscreen" content="true">
+<meta name="browsermode" content="application">
+<meta name="x5-page-mode" content="app">
+<meta name="msapplication-tap-highlight" content="no">
+<script type="text/javascript">
+    var phoneWidth = parseInt(window.screen.width);
+    var phoneScale = phoneWidth/640;
+    var isAndroid = false;
+    var ua = navigator.userAgent;
+    if (/Android (\d+\.\d+)/.test(ua)){
+      var version = parseFloat(RegExp.$1);
+      // andriod 2.3
+      if(version>2.3){
+        document.write('<meta name="viewport" content="width=640, minimum-scale = '+phoneScale+', maximum-scale = '+phoneScale+', target-densitydpi=device-dpi">');
+      // andriod 2.3以上
+      }else{
+        document.write('<meta name="viewport" content="width=640, target-densitydpi=device-dpi">');
+      }
+      isAndroid = true;
+      // 其他系统
+    } else {
+      document.write('<meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">');
+    }
+  </script>
+<body>
+    <div>
+        <select id="apiurl" style="width:20%;" onchange="changeApi(this)">
+            <option value="http://api.bbbbbb.me/jx/?url=">选择接口</option>
+            <option value="http://api.wlzhan.com/sudu/?url=">万能接口1</option>
+            <option value="http://www.448521.com/yun/index.php?url=">万能接口2</option> 
+            <option value="http://jiexi.071811.cc/jx2.php?url=">万能接口3</option>
+            <option value="http://jqaaa.com/jq3/?url=&amp;url=">万能接口4</option>
+            <option value="http://yun.baiyug.cn/vip/index.php?url=">万能接口5</option>
+            <option value="https://jiexi.071811.cc/jx2.php?url=">万能接口6</option>
+            <option value="http://api.xiaomil.com/a/index.php?url=">腾讯视频接口1</option>    
+            <option value="http://api.pucms.com/?url=">爱奇艺超清接口1</option>
+            <option value="http://api.baiyug.cn/vip/index.php?url=">爱奇艺超清接口2</option>
+            <option value="https://api.flvsp.com/?url=">爱奇艺超清接口3</option>
+            <option value="http://api.xfsub.com/index.php?url=">芒果TV超清接口</option>
+            <option value="http://65yw.2m.vc/chaojikan.php?url=">芒果TV手机接口</option>
+            <option value="http://www.82190555.com/index/qqvod.php?url=">优酷超清接口</option>
+            <option value="http://vip.jlsprh.com/index.php?url=">搜狐视频接口</option>
+            <option value="http://2gty.com/apiurl/yun.php?url=">乐视视频接口</option>
+        </select>
+        <input type="text" name="urlPath" id="urlPath" style="width:50%;" placeholder="复制优酷奇艺浏览地址在此粘贴">
+        <input type="button" name="btnPlay" id="btnPlay" value="播放"  style="width:20%; font-size:30px" onclick="playDo();">
+    </div>
+    <div id="ckplays" >
+        <!-- <iframe id="apiHtml" name="apiHtml" src="" width="100%" height="650px" security="restricted" sandbox="allow-scripts allow-same-origin allow-popups"></iframe> -->
+        <iframe id="apiHtml" name="apiHtml" src="" width="100%" height="650px" ></iframe>
+    </div>
+    <input type="button" name="btnTest" id="btnTest" value="随便试播一下"  onclick="playTest();">
+
+<!-- <script src="js/jquery.js"></script> -->
+<script type="text/javascript">
+function $(valStr){
+    // console.log(valStr);
+    var idname = valStr.replace("#","");
+    var elm = document.getElementById(idname);
+    return elm;
+}
+// 自动粘贴，跳
+function getClipboardText(event) {
+    try{
+        $("#urlPath").focus();
+        if(document.execCommand('paste', false, null)){
+            console.log("succ")
+            return $("#urlPath").value;
+        } else{
+            console.log("failre");
+        }
+    } catch(err){
+        console.log("failre",err);
+    }
+    var clipboardData;
+    if(event && event.clipboardData)
+        clipboardData = event.clipboardData;
+    else
+        clipboardData = window.clipboardData;
+    if(!clipboardData){
+        console.log("no clipboardData",clipboardData);
+        return "";
+    }
+    return clipboardData.getData("text");
+}
+function setClipboardText(value,event) {
+    try{
+        $("#urlPath").focus();
+        $("#urlPath").select();
+        if(document.execCommand('copy', false, null)){
+            return;
+        } else{
+        }
+    } catch(err){
+    }
+
+    var clipboardData;
+    var fmt = "text";
+    if(event && event.clipboardData){
+        clipboardData = event.clipboardData;
+        fmt = "text/plain";
+    }
+    else{
+        clipboardData = window.clipboardData;
+    }
+    if(!clipboardData)
+        return "";
+    clipboardData.setData(fmt, value);
+}
+
+// 
+function changeApi(){
+
+}
+
+function getPar(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if(r != null) return decodeURIComponent(r[2]);
+    return null;
+}
+var urldata = getClipboardText();
+
+function playTest(e){
+    $("#urlPath").value = "https://v.youku.com/v_show/id_XMzg1OTIzNTcyMA==.html";
+    playDo();
+}
+
+function playDo(e){
+    var upath = $("#urlPath").value;
+    if(!upath || upath.length)
+        getClipboardText(e);
+    
+    upath = $("#urlPath").value;
+    if(!upath || upath.length == 0){
+        console.log("视频地址不能为空，请从优酷腾讯复制视频地址");
+        return;
+    }
+
+    var aurl = $("#apiurl").value;
+    if(!aurl)
+        aurl = "http://api.bbbbbb.me/jx/?url=";
+    $("#apiHtml").setAttribute("src", aurl + upath);
+    console.log(aurl + upath);
+    // allFrame(document);
+}
+$("#btnPlay").click(playDo);
+
+$("#urlPath").onkeydown = function(e){
+    console.log(e.keyCode)
+    if(e.keyCode == 13){
+        playDo();
+    }
+};
+
+/** 
+console.log(navigator.userAgent);
+function hidego(dom){
+    // console.log(dom.all.length);
+    for (var i = dom.all.length - 1; i >= 0; i--) {
+        var elm = dom.all[i];
+        if(elm.style.position == "fixed")
+            elm.style.display = "none";
+    }
+}
+function allFrame(dom){
+    if(true)
+        return;
+    if(!dom){
+        console.log(dom);
+        return;
+    }
+    hidego(dom);
+    $(dom.getElementsByTagName("iframe")).each(function(){
+        var cdom = this.contentWindow.document;
+        console.log(cdom,this.name);
+        allFrame(cdom);
+
+        $(this).ready(function(){
+            allFrame(cdom);
+        });
+    });
+}
+$(document).ready(function(){
+    allFrame(document);
+});
+// var timeID=setInterval(function(){
+//     console.log(11)
+//     allFrame(document);
+// },1000);
+*/
+</script>
+</body>
