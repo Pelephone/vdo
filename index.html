@@ -146,7 +146,7 @@ function playTest(e){
 
 function playDo(e){
     var upath = $("#urlPath").value;
-    if(!upath || upath.length)
+    if(!upath || upath.length == 0 || upath=="")
         getClipboardText(e);
     
     upath = $("#urlPath").value;
