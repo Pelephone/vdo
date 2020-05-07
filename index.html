@@ -1,5 +1,6 @@
+
 <!DOCTYPE html>
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html style="height:100%;padding: 0;margin: 0"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>vip视频在线解析</title>
 <meta name="Pelephone" content="fly">
 <meta name="description" content="用别人的接口搞的,方便自己看视频,请勿推广">
@@ -39,8 +40,8 @@
       document.write('<meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">');
     }
   </script>
-<body>
-    <div>
+<body style="height:100%;padding: 0;margin: 0">
+    <div id="sl">
         <select id="apiurl" style="width:20%;" onchange="changeApi(this)">
             <option value="https://api.sigujx.com/?url=">选择接口</option>
             <option value="http://api.bbbbbb.me/jx/?url=">bbb.me</option>
@@ -63,12 +64,13 @@
         <input type="text" name="urlPath" id="urlPath" style="width:50%;" placeholder="复制优酷奇艺浏览地址在此粘贴">
         <input type="button" name="btnPlay" id="btnPlay" value="播放"  style="width:20%; font-size:30px" onclick="playDo();">
     </div>
-    <div id="ckplays" >
+    <div id="ckplays"  style="padding: 0;margin: 0">
         <!-- <iframe id="apiHtml" name="apiHtml" src="" width="100%" height="650px" security="restricted" sandbox="allow-scripts allow-same-origin allow-popups"></iframe> -->
-        <iframe id="apiHtml" name="apiHtml" src="" width="100%" height="650px" ></iframe>
+        <iframe  style="padding: 0;margin: 0;border: 0;" id="apiHtml" name="apiHtml" src="" width="100%" height="650px" ></iframe>
     </div>
     <input type="button" name="btnTest" id="btnTest" value="随便试播一下"  onclick="playTest();">
     Pelephone:本人用别人接口解的vip视频，广告跟本人没有关系，请不要传播
+    <input type="button" name="btnFS" id="btnTest" value="全屏"  onclick="fullScn();">
 
 <!-- <script src="js/jquery.js"></script> -->
 <script type="text/javascript">
@@ -143,6 +145,21 @@ var urldata = getClipboardText();
 function playTest(e){
     $("#urlPath").value = "https://v.youku.com/v_show/id_XMzg1OTIzNTcyMA==.html";
     playDo();
+}
+
+var isFS = false;
+function fullScn(e){
+    isFS = !isFS;
+    if(isFS){
+        $("#sl").style.display = "none";
+        $("#apiHtml").style.height = "100%";
+        $("#ckplays").style.height = "100%";
+    }
+    else{
+        $("#sl").style.display = "block";
+        $("#apiHtml").style.height = "650px";
+        $("#ckplays").style.height = "";
+    }
 }
 
 function playDo(e){
